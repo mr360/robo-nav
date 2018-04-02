@@ -9,4 +9,12 @@
 
 void ASFunc(Map& aObject) {
     std::cout << "You are now in the AS function" << std::endl;
+    //aObject.createMapLayout();
+
+
+
+    // Write results
+    // Print to screen 
+
+    // Once done call map class destroy
 }

@@ -55,20 +55,17 @@ void selectSearchAlgorithm(char *argv[], Map& aObject) {
     }
 }
 
-bool loadData(char *argv[], Map& aObject) {
-    std::ifstream file{ argv[INPUT_FILENAME] };
+bool readData(char *argv[], Map& aObject) {
+    std::ifstream file{ argv[INPUT_FILENAME], std::ios_base::in };
     if (!file) return false;
-
-    // Load file values into class Map
-
+    file >> aObject;
     file.close();
-
     return true;
 }
 
-bool unloadData(char *argv[], Map& aObject) {
+bool writeData(char *argv[], Map& aObject) {
     if (argv[OUTPUT][ARG_PREFIX] == '-' && argv[OUTPUT][METHOD] == 'o') {
-        std::ofstream file{ argv[OUTPUT_FILENAME] };
+        std::ofstream file{ argv[OUTPUT_FILENAME], std::ios_base::out };
         if (!file) return false;   // ADD FEATURE::Check if aObject is empty
         file << aObject;
         return true;

@@ -10,6 +10,6 @@
 
 void selectSearchAlgorithm(char* argv[], Map& aObject);
 
-bool loadData(char *argv[], Map& aObject);
+bool readData(char *argv[], Map& aObject);
 
-bool unloadData(char *argv[], Map& aObject);
+bool writeData(char *argv[], Map& aObject);

@@ -9,4 +9,12 @@
 
 void CUS2Func(Map& aObject) {
     std::cout << "You are now in the CUS2 function" << std::endl;
+    //aObject.createMapLayout();
+
+
+
+    // Write results
+    // Print to screen 
+
+    // Once done call map class destroy
 }

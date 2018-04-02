@@ -9,4 +9,12 @@
 
 void DFSFunc(Map& aObject) {
     std::cout << "You are now in the DFS function" << std::endl;
+    //aObject.createMapLayout();
+
+
+
+    // Write results
+    // Print to screen 
+
+    // Once done call map class destroy
 }

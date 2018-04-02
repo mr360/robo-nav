@@ -8,24 +8,31 @@
 
 #pragma once
 #include <iostream>
+#include <vector>
 
-constexpr uint8_t MAX_LIST = 55;
-constexpr uint8_t MAX_SUB_LIST = 4;
+constexpr int8_t DEFAULT_VALUE = -99;
+constexpr uint8_t COLUMN_NUM = 4;
+constexpr uint8_t ROW_NUM = 25;
 
 class Map
 {
     private:
-        uint16_t mapList[MAX_LIST][MAX_SUB_LIST];
-        uint16_t nodePathTaken;
+        std::vector<std::vector<int16_t>> mapList;
+        int16_t nodePathTaken;
     public:
         // Default constructor (initializes all member variables)
         Map();
 
-        //createMapLayout();
-            //Setup array size [N]*[M]
-            //Insert start & end position of Agent
-            //Insert walls  
+        // Destroy the map class 
+        ~Map();
 
+        // Getters and Setters
+        unsigned int getDimension(char coord);
+        unsigned int getAgent(char pos);
+
+        // Create and populate map
+        void createWallLayout(std::vector<char>& algoMap);
+      
         // Input operator for Map
         friend std::istream& operator >> (std::istream& aIStream, Map& aObject);
 

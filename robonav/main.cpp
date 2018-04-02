@@ -17,13 +17,14 @@ int main(int argc, char* argv[]) {
     }
 
     Map route01;
-    if (loadData(argv, route01)) {
+    if (readData(argv, route01)) {
         selectSearchAlgorithm(argv, route01);
-        if (!unloadData(argv, route01)) {
+        if (!writeData(argv, route01)) {
             std::cerr << "Write to file failed!" << std::endl;
+            return -1;
         }
     }
-    else std::cerr << "File cannot be opened!" << std::endl;
+    else std::cerr << "File cannot be read!" << std::endl;
 
     return 0;
 }

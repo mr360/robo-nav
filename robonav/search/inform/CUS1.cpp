@@ -9,4 +9,12 @@
 
 void CUS1Func(Map& aObject) {
     std::cout << "You are now in the CUS1 function" << std::endl;
+    //aObject.createMapLayout();
+
+
+
+    // Write results
+    // Print to screen 
+
+    // Once done call map class destroy
 }

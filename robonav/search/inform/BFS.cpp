@@ -7,6 +7,18 @@
 
 #include "BFS.h"
 
+
 void BFSFunc(Map& aObject) {
-    std::cout << "You are now in the BFS function" << std::endl;
+    std::cout << "BFS Search: Queue FIFO" << std::endl;
+    std::vector<char> BFSMap;
+
+    aObject.createMapLayout(BFSMap);
+
+    BFSMap[0,1];
+    
+    // Write results
+    // Print to screen 
+
+    // Once done call map class destroy
+    aObject.~Map();
 }
