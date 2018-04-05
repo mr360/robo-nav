@@ -2,40 +2,61 @@
     Map.h
     Date: 15/03/18
     Author: 101119509
-    Description: Store robotic map co-ord & process I/O tasks, such as
-                 reading & outputting to file.
+    Description: [Add Details]
 */
 
 #pragma once
-#include <iostream>
-#include <vector>
+#define UP (0)
+#define LEFT (1)
+#define DOWN (2)
+#define RIGHT (3)
+#define EDGE_AMOUNT (4)
+#define OUT_OF_BOUND (-1)
+#define ZEROth_ARRAY (1)
 
-constexpr int8_t DEFAULT_VALUE = -99;
-constexpr uint8_t COLUMN_NUM = 4;
-constexpr uint8_t ROW_NUM = 25;
-
-class Map
-{
-    private:
-        std::vector<std::vector<int16_t>> mapList;
-        int16_t nodePathTaken;
-    public:
-        // Default constructor (initializes all member variables)
-        Map();
-
-        // Destroy the map class 
-        ~Map();
-
-        // Getters and Setters
-        unsigned int getDimension(char coord);
-        unsigned int getAgent(char pos);
-
-        // Create and populate map
-        void createWallLayout(std::vector<char>& algoMap);
-      
-        // Input operator for Map
-        friend std::istream& operator >> (std::istream& aIStream, Map& aObject);
-
-        // Output operator for Map
-        friend std::ostream& operator << (std::ostream& aOStream, const Map& aObject);
+struct Node {
+    int x;
+    int y;
 };
+
+class Map {
+    private:
+        int x;
+        int y;
+    
+        bool visitFlag;
+        bool wallFlag;
+        bool finishFlag;
+        bool startFlag;
+
+        Node edge[EDGE_AMOUNT];
+    
+        // A* only --> Dedicated getters and setters to generate these scores
+        //int hScore;
+        //int gScore;
+        //int fScore = hScore + gScore;
+
+    public:
+        // Default constuctor
+        Map();                              
+        // Overload constructor
+        Map(int, int);                      
+
+        // Search tools
+        bool isNotVisited();
+        bool isNotWall();
+        bool isValidEdge(int);
+        void setVisitFlag(bool);
+
+        bool isFinish();
+        bool isStart();
+        Node getEdge(int);
+
+        // Add map details
+        void setWall();
+        void setStart();
+        void setFinish();
+        void generateEdges(Node& mapDim);  
+
+};
+

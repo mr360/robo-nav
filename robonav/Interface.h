@@ -6,10 +6,10 @@
 */
 
 #pragma once
-#include "Map.h"
+#include "Search.h"
 
-void selectSearchAlgorithm(char* argv[], Map& aObject);
+void selectSearchAlgorithm(char* argv[], Search& aObject);
 
-bool readData(char *argv[], Map& aObject);
+bool readData(char *argv[], Search& aObject);
 
-bool writeData(char *argv[], Map& aObject);
+bool writeData(char *argv[], Search& aObject);

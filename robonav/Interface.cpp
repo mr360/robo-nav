@@ -7,22 +7,15 @@
 
 #include "interface.h"
 #include <fstream>
-
-#include "search/inform/CUS1.h"
-#include "search/inform/DFS.h"
-#include "search/inform/BFS.h"
-
-#include "search/uninform/CUS2.h"
-#include "search/uninform/GBFS.h"
-#include "search/uninform/AS.h"
+#include <iostream>
+#include "Search.h"
 
 // Comand line arguments
 constexpr int ARG_PREFIX = 0;
 constexpr int METHOD = 1;
 constexpr int SEARCH = 2;
-constexpr int OUTPUT = 3;
 constexpr int INPUT_FILENAME = 1;
-constexpr int OUTPUT_FILENAME = 4;
+constexpr int OUTPUT_FILENAME = 3;
 
 // Search Methods 
 constexpr char CUS1 = 'u';
@@ -32,22 +25,22 @@ constexpr char CUS2 = 'i';
 constexpr char GBFS = 'g';
 constexpr char AS = 'a';
 
-void selectSearchAlgorithm(char *argv[], Map& aObject) {
+void selectSearchAlgorithm(char *argv[], Search& aObject) {
     if (argv[SEARCH][ARG_PREFIX] == '-') {
         switch (argv[SEARCH][METHOD]) {
             // Informed Search
-            case CUS1: CUS1Func(aObject);  
+            case CUS1: //aObject.cus01();
                        break;
-            case DFS:  DFSFunc(aObject);   
+            case DFS:  aObject.dfs();
                        break;
-            case BFS:  BFSFunc(aObject);   
+            case BFS:  aObject.bfs();
                        break;
             // Uninformed Search
-            case CUS2: CUS2Func(aObject);  
+            case CUS2: //aObject.cus02();
                        break;
-            case GBFS: GBFSFunc(aObject);  
+            case GBFS: //aObject.gbfs();
                        break;
-            case AS:   ASFunc(aObject);    
+            case AS:   //aObject.aStar();
                        break;
             default:   std::cout << "Unknown search argument!"; 
                        break;
@@ -55,21 +48,24 @@ void selectSearchAlgorithm(char *argv[], Map& aObject) {
     }
 }
 
-bool readData(char *argv[], Map& aObject) {
+bool readData(char *argv[], Search& aObject) {
     std::ifstream file{ argv[INPUT_FILENAME], std::ios_base::in };
-    if (!file) return false;
+    if (!file) {
+        std::cerr << "File cannot be read" << std::endl;
+        return false;
+    }
     file >> aObject;
     file.close();
     return true;
 }
 
-bool writeData(char *argv[], Map& aObject) {
-    if (argv[OUTPUT][ARG_PREFIX] == '-' && argv[OUTPUT][METHOD] == 'o') {
-        std::ofstream file{ argv[OUTPUT_FILENAME], std::ios_base::out };
-        if (!file) return false;   // ADD FEATURE::Check if aObject is empty
-        file << aObject;
-        return true;
+bool writeData(char *argv[], Search& aObject) {
+    std::ofstream file{ argv[OUTPUT_FILENAME], std::ios_base::out };
+    if (!file) {
+        std::cerr << "Data cannot be written" << std::endl;
+        return false;
     }
-    return false;
+    file << aObject;
+    return true;
 }
 

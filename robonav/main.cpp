@@ -6,25 +6,20 @@
 */
 
 #include <iostream>
-#include "Map.h"
 #include "interface.h"
 
 int main(int argc, char* argv[]) {   
-    if (argc < 5) {
+    if (argc < 4) {
         std::cerr <<  "Incomplete argument list!\n"
-                  <<  "Usage: search.exe <input_file> <method> <output> <output_file>";
+                  <<  "Usage: search.exe <input_file> <method> <output_file>";
         return -1;
     }
 
-    Map route01;
-    if (readData(argv, route01)) {
-        selectSearchAlgorithm(argv, route01);
-        if (!writeData(argv, route01)) {
-            std::cerr << "Write to file failed!" << std::endl;
-            return -1;
-        }
+    Search map;
+    if (readData(argv, map)) {
+        selectSearchAlgorithm(argv, map);
+        writeData(argv, map);
     }
-    else std::cerr << "File cannot be read!" << std::endl;
 
     return 0;
 }

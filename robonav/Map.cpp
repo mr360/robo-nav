@@ -2,95 +2,144 @@
     Map.cpp
     Date: 15/03/18
     Author: 101119509
-    Description: Store robotic map co-ord & process I/O tasks, such as
-                 reading & outputting to file.
+    Description: [Add Details]
 */
 
 #include "Map.h"
-#include <string>
 
 Map::Map()
 {
-   nodePathTaken = 0;
-   mapList.resize(ROW_NUM, std::vector<int16_t>(COLUMN_NUM, DEFAULT_VALUE));
+    x = 0;
+    y = 0;
+    visitFlag = false;
+    wallFlag = false;
+    finishFlag = false;
+    startFlag = false;
+
 }
 
-Map::~Map()
+Map::Map(int ix, int iy)
 {
-    // Delete map class object
-}
+    x = ix;
+    y = iy;
+    visitFlag = false;
+    wallFlag = false;
+    finishFlag = false;
+    startFlag = false;
 
-unsigned int Map::getDimension(char coord)
-{
-    //Setup array size [N]*[M]
-    return 0;
-}
-
-unsigned int Map::getAgent(char pos)
-{
-    //Insert start & end position of Agent
-    return 0;
-}
-
-void Map::createWallLayout(std::vector<char>& algoMap)
-{
-    //Setup array size [N]*[M]
-    //unsigned int N = mapList[0][0];
-    //unsigned int M = mapList[0][1];
-    //algoMap.resize(N, std::vector<char>(M, DEFAULT_VALUE));
-    //Insert start & end position of Agent
-    //Insert walls 
-}
-
-std::istream& operator >> (std::istream& aIStream, Map& aObject)
-{
-    #define START_MAIN_COORD ('X')
-    #define SEPARATOR ('Z')
-
-    // Map boundry characters to string processor friendly characters
-    std::string temp;
-    for (char input; aIStream >> input;) {
-        if (input == '[' || input == '(') temp.push_back(START_MAIN_COORD);
-        if (input == ',') temp.push_back(SEPARATOR);
-        if (isdigit(input)) temp.push_back(input);
+    //Set all edges to out-of-bounds
+    for (int i = 0; i < EDGE_AMOUNT; i++) {
+        edge[i].x = OUT_OF_BOUND;
+        edge[i].y = OUT_OF_BOUND;
     }
+}
 
-    // Mapped to aObject[m][k] array
-    int m = -1;         // Starts at index 0
-    int k = 0;
 
-    // Process the ugly formatting of the input file
-    for (unsigned int i = 0; i < temp.size(); i++) {
-        // Every new co-ord reset sub listing co-ord (k) counter
-        if (temp[i] == START_MAIN_COORD) {
-            m++;
-            k = 0;
-        }
-        // Increment sub-listing counter (k)
-        if (temp[i] == SEPARATOR) k++;
-        
-        // Process double digit, e.g 11-99
-        // Check if |digit|digit|
-        if (isdigit(temp[i]) && isdigit(temp[i+1])) {
-            std::string x;
-            x.push_back(temp[i]);
-            x.push_back(temp[i + 1]);
-
-            aObject.mapList[m][k] = stoi(x);
-        }
-
-        // Process single digit, e.g 1-9
-        // Check if |not digit|digit|not digit|
-        if (isdigit(temp[i]) && !isdigit(temp[i + 1]) && !isdigit(temp[i - 1])) {
-            aObject.mapList[m][k] = static_cast<int>(temp[i] - '0');
-        }
+bool Map::isNotVisited()
+{
+    if (visitFlag == false) {
+        return true;
     }
+    return false;
+}
+
+bool Map::isNotWall()
+{
+    if (wallFlag == false) {
+        return true;
+    }
+    return false;
+}
+
+bool Map::isValidEdge(int direction)
+{
+    if (edge[direction].x != OUT_OF_BOUND) return true;
+    if (edge[direction].x != OUT_OF_BOUND) return true;
+    if (edge[direction].x != OUT_OF_BOUND) return true;
+    if (edge[direction].x != OUT_OF_BOUND) return true;
+    return false;
+}
+
+
+bool Map::isFinish()
+{
+    if (finishFlag == true) {
+        return true;
+    }
+    return false;
+}
+
+bool Map::isStart()
+{
+    if (startFlag == true) {
+        return true;
+    }
+    return false;
+}
+
+Node Map::getEdge(int direction)
+{
+    return edge[direction];
+}
+
+void Map::setWall()
+{
+    wallFlag = true;
+}
+
+void Map::setVisitFlag(bool flag)
+{
+    visitFlag = flag;
+}
+
+void Map::setStart()
+{
+    startFlag = true;
+}
+
+void Map::setFinish()
+{
+    finishFlag = true;
+}
+
+void Map::generateEdges(Node & mapDim)
+{
+    int dim_col = mapDim.y - ZEROth_ARRAY;
+    int dim_row = mapDim.x - ZEROth_ARRAY;
     
-    return aIStream;
+    bool leftEdge = true;
+    bool upEdge = true;
+    bool downEdge = true;
+    bool rightEdge = true;
+
+    // Check bounds
+    if (y <= 0)        leftEdge = false;
+    if (x <= 0)        upEdge = false;
+    if (x >= dim_row)  downEdge = false;
+    if (y >= dim_col)  rightEdge = false;
+    
+    // Set the Node neighbouring edges
+    if (upEdge) { 
+        edge[UP].x = (x - 1);
+        edge[UP].y = y;
+    }    
+    
+    if (leftEdge) {
+        edge[LEFT].y = (y - 1);
+        edge[LEFT].x = x;
+    }
+
+    if (downEdge) {
+        edge[DOWN].x = (x + 1);
+        edge[DOWN].y = y;
+    }
+
+    if (rightEdge) {
+        edge[RIGHT].y = (y + 1);
+        edge[RIGHT].x = x;
+    }
 }
 
-std::ostream& operator<< (std::ostream& aOStream, const Map& aObject)
-{
-    //FILE STRUCTURE: filename method number_of_nodes path 
-    return aOStream;
-}
+
+
+

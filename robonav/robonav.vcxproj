@@ -149,22 +149,12 @@
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="search\inform\BFS.cpp" />
-    <ClCompile Include="search\inform\CUS1.cpp" />
-    <ClCompile Include="search\inform\DFS.cpp" />
-    <ClCompile Include="search\uninform\AS.cpp" />
-    <ClCompile Include="search\uninform\CUS2.cpp" />
-    <ClCompile Include="search\uninform\GBFS.cpp" />
+    <ClCompile Include="Search.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="search\inform\BFS.h" />
-    <ClInclude Include="search\inform\CUS1.h" />
-    <ClInclude Include="search\inform\DFS.h" />
-    <ClInclude Include="search\uninform\AS.h" />
-    <ClInclude Include="search\uninform\CUS2.h" />
-    <ClInclude Include="search\uninform\GBFS.h" />
+    <ClInclude Include="Search.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
