@@ -1,28 +1,42 @@
 /*
-    Map.cpp
+    Node.cpp
     Date: 15/03/18
     Author: 101119509
     Description: [Add Details]
 */
 
-#include "Map.h"
+#include "Node.h"
+#include <cmath>
 
-Map::Map()
+Node::Node()
 {
+    // Coord
     x = 0;
     y = 0;
+
+    // Flags
     visitFlag = false;
+    pendingVisitFlag = false;
     wallFlag = false;
     finishFlag = false;
     startFlag = false;
 
+    // Informed Search (A* GBFS)
+    hScore = 0;
+    gScore = 0;
+    fScore = 0;
+
 }
 
-Map::Map(int ix, int iy)
+Node::Node(int ix, int iy)
 {
+    // Coord
     x = ix;
     y = iy;
+
+    // Flags
     visitFlag = false;
+    pendingVisitFlag = false;
     wallFlag = false;
     finishFlag = false;
     startFlag = false;
@@ -32,26 +46,66 @@ Map::Map(int ix, int iy)
         edge[i].x = OUT_OF_BOUND;
         edge[i].y = OUT_OF_BOUND;
     }
+
+    //Set parent to out-of-bound
+    parent.x = OUT_OF_BOUND;
+    parent.y = OUT_OF_BOUND;
+
+    // Informed Search (A* GBFS)
+    hScore = 0;
+    gScore = 0;
+    fScore = 0;
 }
 
-
-bool Map::isNotVisited()
+int Node::getGScore() const
 {
-    if (visitFlag == false) {
-        return true;
-    }
+    return gScore;
+}
+
+int Node::getHScore() const
+{
+    return hScore;
+}
+
+int Node::getFScore() const
+{
+    return fScore;
+}
+
+void Node::setGScore(int gVal)
+{
+    gScore = gVal;
+}
+
+void Node::setHScore(int hVal)
+{
+    hScore = hVal;
+}
+
+void Node::setFScore(int fVal)
+{
+    fScore = fVal;
+}
+
+bool Node::isNotVisited()
+{
+    if (visitFlag == false) return true;
     return false;
 }
 
-bool Map::isNotWall()
+bool Node::isNotPendingVisit()
 {
-    if (wallFlag == false) {
-        return true;
-    }
+    if (pendingVisitFlag == false) return true;
     return false;
 }
 
-bool Map::isValidEdge(int direction)
+bool Node::isNotWall()
+{
+    if (wallFlag == false) return true;
+    return false;
+}
+
+bool Node::isValidEdge(int direction)
 {
     if (edge[direction].x != OUT_OF_BOUND) return true;
     if (edge[direction].x != OUT_OF_BOUND) return true;
@@ -60,49 +114,55 @@ bool Map::isValidEdge(int direction)
     return false;
 }
 
-
-bool Map::isFinish()
+bool Node::isFinish()
 {
-    if (finishFlag == true) {
-        return true;
-    }
+    if (finishFlag == true) return true;
     return false;
 }
 
-bool Map::isStart()
+bool Node::isStart()
 {
-    if (startFlag == true) {
-        return true;
-    }
+    if (startFlag == true) return true;
     return false;
 }
 
-Node Map::getEdge(int direction)
+Coord Node::getEdge(int direction)
 {
     return edge[direction];
 }
 
-void Map::setWall()
+void Node::setParent(Node & n)
+{
+    parent.x = n.x;
+    parent.y = n.y;
+}
+
+void Node::setWall()
 {
     wallFlag = true;
 }
 
-void Map::setVisitFlag(bool flag)
+void Node::setVisitFlag(bool flag)
 {
     visitFlag = flag;
 }
 
-void Map::setStart()
+void Node::setPendingVisit(bool flag)
+{
+    pendingVisitFlag = flag;
+}
+
+void Node::setStart()
 {
     startFlag = true;
 }
 
-void Map::setFinish()
+void Node::setFinish()
 {
     finishFlag = true;
 }
 
-void Map::generateEdges(Node & mapDim)
+void Node::generateEdges(Coord& mapDim)
 {
     int dim_col = mapDim.y - ZEROth_ARRAY;
     int dim_row = mapDim.x - ZEROth_ARRAY;
@@ -137,6 +197,14 @@ void Map::generateEdges(Node & mapDim)
     if (rightEdge) {
         edge[RIGHT].y = (y + 1);
         edge[RIGHT].x = x;
+    }
+}
+
+void Node::generateScore(Coord& finishNode)
+{
+    if (isNotWall()) {
+        hScore = abs(finishNode.x - x) + abs(finishNode.y - y);
+        gScore = 0;
     }
 }
 

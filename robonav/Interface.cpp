@@ -29,18 +29,18 @@ void selectSearchAlgorithm(char *argv[], Search& aObject) {
     if (argv[SEARCH][ARG_PREFIX] == '-') {
         switch (argv[SEARCH][METHOD]) {
             // Informed Search
-            case CUS1: //aObject.cus01();
+            case CUS1: aObject.cus01();
                        break;
             case DFS:  aObject.dfs();
                        break;
             case BFS:  aObject.bfs();
                        break;
             // Uninformed Search
-            case CUS2: //aObject.cus02();
+            case CUS2: aObject.cus02();
                        break;
-            case GBFS: //aObject.gbfs();
+            case GBFS: aObject.gbfs();
                        break;
-            case AS:   //aObject.aStar();
+            case AS:   aObject.aStar();
                        break;
             default:   std::cout << "Unknown search argument!"; 
                        break;

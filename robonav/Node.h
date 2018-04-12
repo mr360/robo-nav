@@ -1,5 +1,5 @@
 /*
-    Map.h
+    Node.h
     Date: 15/03/18
     Author: 101119509
     Description: [Add Details]
@@ -14,49 +14,73 @@
 #define OUT_OF_BOUND (-1)
 #define ZEROth_ARRAY (1)
 
-struct Node {
+struct Coord {
     int x;
     int y;
 };
 
-class Map {
+class Node {
     private:
+        // Coord
         int x;
         int y;
-    
+        
+        // Flags
         bool visitFlag;
+        bool pendingVisitFlag;
         bool wallFlag;
         bool finishFlag;
         bool startFlag;
 
-        Node edge[EDGE_AMOUNT];
-    
+        // Storage of Edges and Parent node
+        Coord edge[EDGE_AMOUNT];
+        Coord parent;
+
+        // Informed Search 
         // A* only --> Dedicated getters and setters to generate these scores
-        //int hScore;
-        //int gScore;
-        //int fScore = hScore + gScore;
+        int hScore;
+        int gScore;
+        int fScore;
 
     public:
         // Default constuctor
-        Map();                              
+        Node();
         // Overload constructor
-        Map(int, int);                      
+        Node(int, int);
+
+        // Getters
+        int getGScore() const;
+        int getHScore() const;
+        int getFScore() const;
+
+        // Setters
+        void setGScore(int);
+        void setHScore(int);
+        void setFScore(int);
 
         // Search tools
         bool isNotVisited();
+        bool isNotPendingVisit();
+
         bool isNotWall();
         bool isValidEdge(int);
+
         void setVisitFlag(bool);
+        void setPendingVisit(bool);
 
         bool isFinish();
         bool isStart();
-        Node getEdge(int);
+
+        Coord getEdge(int);
+        void setParent(Node& n);
 
         // Add map details
         void setWall();
         void setStart();
         void setFinish();
-        void generateEdges(Node& mapDim);  
+        void generateEdges(Coord& mapDim);
+
+        void generateScore(Coord& finishNode);
 
 };
 
