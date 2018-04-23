@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{907E575B-9BF6-4617-A005-45566329A248}</ProjectGuid>
+    <ProjectGuid>{9EBE774B-D78B-49E3-B28C-AC0EE1338DC8}</ProjectGuid>
     <RootNamespace>robonav</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
